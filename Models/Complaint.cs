@@ -1,12 +1,27 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using HelpDesk.Enums;
+
 namespace HelpDesk.Models;
 
 public class Complaint
 {
-    public int Id { get; set; }
-    public string Description { get; set; }
-    public string Status { get; set; } // possible values: "Not yet processed", "In progress", "Resolved", "No solution"
-    public string Solution { get; set; } // corrective actions taken by the technician
-    public User User { get; set; } // navigation property to the user who created the complaint
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
-    public DateTime? ClosedAt { get; set; }
+    [Key] public Guid Id { get; set; } = new();
+    [Required(ErrorMessage = "Title is required.")]
+    [StringLength(80,MinimumLength = 10,ErrorMessage = "Title characters are out of range. (10 - 80)")]
+    public string Title { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Description is required.")]
+    [MinLength(50, ErrorMessage = "Description is too short.")]
+    public string Description { get; set; } = string.Empty;
+
+    public Status Status { get; set; } = Status.Open;
+
+
+    public string? Action { get; set; } 
+
+    public User? User { get; set; }
+    public bool IsClosed { get; set; } = false;
+    [DisplayName("Created at")] public DateTime CreatedAt { get; set; } = DateTime.Now;
+    [DisplayName("Updated at")] public DateTime? UpdatedAt { get; set; }
+    [DisplayName("Closed at at")] public DateTime? ClosedAt { get; set; }
 }

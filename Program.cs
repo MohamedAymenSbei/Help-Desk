@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using HelpDesk.Data;
+using HelpDesk.Enums;
 using HelpDesk.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +28,20 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddAuthorization(options =>
+{
+    
+    options.AddPolicy("RequireUser", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole(nameof(Roles.User));
+    });
+    options.AddPolicy("RequireTech", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireRole(nameof(Roles.Technician));
+    });
+});
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {

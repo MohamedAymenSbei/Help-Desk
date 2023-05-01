@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HelpDesk.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230430174637_init")]
-    partial class init
+    [Migration("20230430201131_complaints_user")]
+    partial class complaints_user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,13 @@ namespace HelpDesk.Migrations
 
             modelBuilder.Entity("HelpDesk.Models.Complaint", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("ClosedAt")
                         .HasColumnType("datetime(6)");
@@ -37,15 +41,14 @@ namespace HelpDesk.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Solution")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
@@ -255,7 +258,9 @@ namespace HelpDesk.Migrations
                 {
                     b.HasOne("HelpDesk.Models.User", "User")
                         .WithMany("Complaints")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

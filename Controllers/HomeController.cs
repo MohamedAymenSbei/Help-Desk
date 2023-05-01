@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using HelpDesk.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace HelpDesk.Controllers;
 
@@ -13,7 +12,6 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
-
     public IActionResult Index()
     {
         return View();

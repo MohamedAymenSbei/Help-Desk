@@ -15,10 +15,11 @@ public class ApplicationDbContext : IdentityDbContext<User>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // builder.Entity<Complaint>()
-        //     .HasOne(c => c.User)
-        //     .WithMany(u => u.Complaints)
-        //     .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<Complaint>()
+            .HasOne(c => c.User)
+            .WithMany(u => u.Complaints)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 
     

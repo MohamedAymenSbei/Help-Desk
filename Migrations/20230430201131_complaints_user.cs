@@ -6,7 +6,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 namespace HelpDesk.Migrations
 {
-    public partial class init : Migration
+    public partial class complaints_user : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -169,13 +169,13 @@ namespace HelpDesk.Migrations
                 name: "Complaints",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false),
-                    Status = table.Column<string>(type: "longtext", nullable: false),
-                    Solution = table.Column<string>(type: "longtext", nullable: false),
-                    UserId = table.Column<string>(type: "varchar(255)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Action = table.Column<string>(type: "longtext", nullable: false),
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     ClosedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
@@ -185,7 +185,8 @@ namespace HelpDesk.Migrations
                         name: "FK_Complaints_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 

@@ -4,5 +4,5 @@ namespace HelpDesk.Models;
 
 public class User : IdentityUser
 {
-    public List<Complaint> Complaints { get; set; }
+    public List<Complaint>? Complaints { get; set; }
 }
